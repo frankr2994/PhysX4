@@ -111,6 +111,17 @@ public:
     PxVehicleAckermannGeometryData() : mAccuracy(1.0f), mFrontWidth(0.0f), mRearWidth(0.0f), mAxleSeparation(0.0f) {}
 };
 
+class PxVehicleTireLoadFilterData
+{
+public:
+    PxReal mMinNormalisedLoad;
+    PxReal mMinFilteredNormalisedLoad;
+    PxReal mMaxNormalisedLoad;
+    PxReal mMaxFilteredNormalisedLoad;
+
+    PxVehicleTireLoadFilterData() : mMinNormalisedLoad(0.0f), mMinFilteredNormalisedLoad(1.0f), mMaxNormalisedLoad(2.0f), mMaxFilteredNormalisedLoad(0.7f) {}
+};
+
 // -------------------------------------------------------------------------
 // 2. Wheel & Suspension Data (3.4)
 // -------------------------------------------------------------------------
@@ -162,6 +173,8 @@ public:
         mFrictionVsSlipGraph[1][0]=0.1f; mFrictionVsSlipGraph[1][1]=1.0f;
         mFrictionVsSlipGraph[2][0]=1.0f; mFrictionVsSlipGraph[2][1]=1.0f;
     }
+
+    PxReal getRecipLongitudinalStiffnessPerUnitGravity() const { return 1.0f / mLongitudinalStiffnessPerUnitGravity; }
 };
 
 // -------------------------------------------------------------------------
@@ -175,22 +188,41 @@ public:
     void setChassisMass(const PxF32 chassisMass);
     void free();
     
+    PxU32 getNbWheels() const { return mNbWheels; }
     void setWheelData(const PxU32 id, const PxVehicleWheelData& wheel);
     void setSuspensionData(const PxU32 id, const PxVehicleSuspensionData& suspension);
     void setTireData(const PxU32 id, const PxVehicleTireData& tire);
     void setWheelCentreOffset(const PxU32 id, const PxVec3& offset);
-    void setSuspensionTravelDir(const PxU32 id, const PxVec3& dir);
+    void setSuspTravelDirection(const PxU32 id, const PxVec3& dir);
+    void setSuspensionTravelDir(const PxU32 id, const PxVec3& dir) { setSuspTravelDirection(id, dir); }
     void setWheelShapeMapping(const PxU32 id, const PxI32 shapeId);
     void setSceneQueryFilterData(const PxU32 id, const PxFilterData& sqFilterData);
 
-    // Internal mapping to Vehicle2 params will go here
+    void setSuspForceAppPointOffset(const PxU32 id, const PxVec3& offset);
+    void setTireForceAppPointOffset(const PxU32 id, const PxVec3& offset);
+    void setSubStepCount(const PxReal speedThreshold, const PxU32 lowForwardSpeedSubStepCount, const PxU32 highForwardSpeedSubStepCount);
+    void setMinLongSlipDenominator(const PxReal minLongSlipDenominator);
+    void setTireLoadFilterData(const PxVehicleTireLoadFilterData& tireLoadFilter);
+
+    const PxVec3& getSuspTravelDirection(const PxU32 id) const;
+    const PxVec3& getSuspForceAppPointOffset(const PxU32 id) const;
+    const PxVec3& getTireForceAppPointOffset(const PxU32 id) const;
+    const PxVec3& getWheelCentreOffset(const PxU32 id) const;
+    const PxVehicleSuspensionData& getSuspensionData(const PxU32 id) const;
+    const PxVehicleWheelData& getWheelData(const PxU32 id) const;
+    const PxVehicleTireData& getTireData(const PxU32 id) const;
+    PxI32 getWheelShapeMapping(const PxU32 id) const;
+
+    PxU32 mNbWheels;
 };
 
 class PxVehicleWheelsDynData
 {
 public:
     void setToRestState();
-    void setTireForceShaderData(const void* tireForceShaderData);
+    void setTireForceShaderData(const PxU32 wheelId, const void* tireForceShaderData);
+    void setTireForceShaderFunction(void* tireForceShaderFn);
+    PxReal getWheelRotationSpeed(const PxU32 wheelId) const;
 };
 
 class PxVehicleDriveSimData
@@ -200,6 +232,11 @@ public:
     void setGearsData(const PxVehicleGearsData& gears);
     void setClutchData(const PxVehicleClutchData& clutch);
     void setAutoBoxData(const PxVehicleAutoBoxData& autobox);
+
+    PxVehicleEngineData mEngine;
+    PxVehicleGearsData mGears;
+    PxVehicleClutchData mClutch;
+    PxVehicleAutoBoxData mAutoBox;
 };
 
 class PxVehicleDriveSimData4W : public PxVehicleDriveSimData
@@ -207,6 +244,21 @@ class PxVehicleDriveSimData4W : public PxVehicleDriveSimData
 public:
     void setDiffData(const PxVehicleDifferential4WData& diff);
     void setAckermannGeometryData(const PxVehicleAckermannGeometryData& ackermannData);
+
+    PxVehicleDifferential4WData mDiff;
+    PxVehicleAckermannGeometryData mAckermann;
+};
+
+class PxVehicleDriveDynData
+{
+public:
+    PxU32 getTargetGear() const { return 0; }
+    PxU32 getCurrentGear() const { return 0; }
+    void forceGearChange(const PxU32 gear) {}
+    void startGearChange(const PxU32 gear) {}
+    void setUseAutoGears(const bool useAutoGears) {}
+    bool getUseAutoGears() const { return true; }
+    PxReal getEngineRotationSpeed() const { return 0.0f; }
 };
 
 // -------------------------------------------------------------------------
@@ -216,18 +268,24 @@ public:
 class PxVehicleWheels : public PxBase
 {
 public:
-    virtual void release() { PxBase::release(); }
+    virtual void release() override { delete this; }
+    virtual const char* getConcreteTypeName() const override { return "PxVehicleWheels"; }
     PxRigidDynamic* getRigidDynamicActor() { return mActor; }
+    PxReal computeForwardSpeed() const { return 0.0f; }
     
-    PxVehicleWheelsSimData mSimData;
-    PxVehicleWheelsDynData mDynData;
+    PxVehicleWheelsSimData mWheelsSimData;
+    PxVehicleWheelsDynData mWheelsDynData;
     PxRigidDynamic* mActor;
+
+protected:
+    PxVehicleWheels() : PxBase(0, PxBaseFlag::eIS_RELEASABLE) {}
 };
 
 class PxVehicleDrive : public PxVehicleWheels
 {
 public:
     PxVehicleDriveSimData mDriveSimData;
+    PxVehicleDriveDynData mDriveDynData;
 };
 
 class PxVehicleDrive4W : public PxVehicleDrive
@@ -240,14 +298,72 @@ public:
 };
 
 // -------------------------------------------------------------------------
-// 5. Update Namespace (3.4)
+// 5. Query & Update Structures (3.4)
 // -------------------------------------------------------------------------
+
+struct PxWheelQueryResult
+{
+    PxVec3 suspLineStart;
+    PxVec3 suspLineDir;
+    PxReal suspLineLength;
+    bool isInAir;
+    PxActor* tireContactActor;
+    PxShape* tireContactShape;
+    PxVec3 tireContactPoint;
+    PxVec3 tireContactNormal;
+    PxReal tireFriction;
+    PxU32 tireSurfaceType;
+    PxTransform localPose;
+
+    PxReal longitudinalSlip;
+    PxReal lateralSlip;
+    PxReal suspSpringForce;
+    PxMaterial* tireSurfaceMaterial;
+
+    PxWheelQueryResult() { PxMemZero(this, sizeof(PxWheelQueryResult)); isInAir=true; localPose=PxTransform(PxIdentity); }
+};
+
+class PxVehicleGraph
+{
+public:
+    enum { eMAX_NB_SAMPLES = 256, eMAX_NB_TITLE_CHARS = 256 };
+    void computeGraphChannel(const PxU32 channel, PxReal* xy, PxVec3* colors, char* title) const {}
+};
+
+struct PxVehicleTelemetryData
+{
+    const PxVec3* getTireforceAppPoints() const { return NULL; }
+    const PxVec3* getSuspforceAppPoints() const { return NULL; }
+    const PxVehicleGraph& getWheelGraph(const PxU32 wheelId) const { static PxVehicleGraph g; return g; }
+};
+
+struct PxVehicleWheelGraphChannel
+{
+    enum Enum
+    {
+        eJOUNCE=0,
+        eSUSPFORCE,
+        eTIRELOAD,
+        eNORMALIZED_TIRELOAD,
+        eWHEEL_OMEGA,
+        eTIRE_FRICTION,
+        eTIRE_LONG_SLIP,
+        eNORM_TIRE_LONG_FORCE,
+        eTIRE_LAT_SLIP,
+        eNORM_TIRE_LAT_FORCE,
+        eNORM_TIRE_ALIGNING_MOMENT,
+        eMAX_NB_WHEEL_CHANNELS
+    };
+};
 
 namespace PxVehicleUpdate
 {
     struct PxVehicleWheelQueryResult { PxWheelQueryResult* wheelQueryResults; PxU32 nbWheelQueryResults; };
     void update(PxReal timestep, const PxVec3& gravity, const class PxVehicleDrivableSurfaceToTireFrictionPairs& frictionPairs, PxU32 nbVehicles, PxVehicleWheels** vehicles, PxVehicleWheelQueryResult* vehicleResults = NULL);
 }
+
+// Global functions
+void PxVehicleComputeSprungMasses(PxU32 nbWheels, const PxVec3* wheelOffsets, const PxVec3& com, PxReal totalMass, PxU32 gravityDirection, PxReal* sprungMasses);
 
 } // namespace physx
 

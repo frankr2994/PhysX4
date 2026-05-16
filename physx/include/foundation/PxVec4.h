@@ -84,6 +84,17 @@ class PxVec4T
 	}
 
 	/**
+	\brief sets all elements to zero.
+	*/
+	PX_CUDA_CALLABLE PX_INLINE void setZero()
+	{
+		x = Type(0.0);
+		y = Type(0.0);
+		z = Type(0.0);
+		w = Type(0.0);
+	}
+
+	/**
 	\brief Initializes from 3 scalar parameters.
 
 	\param[in] v Value to initialize the X, Y, and Z components.

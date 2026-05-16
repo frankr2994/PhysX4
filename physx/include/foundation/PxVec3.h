@@ -80,8 +80,18 @@ class PxVec3T
 	\param[in] ny Value to initialize Y component.
 	\param[in] nz Value to initialize Z component.
 	*/
-	PX_CUDA_CALLABLE PX_FORCE_INLINE PxVec3T(Type nx, Type ny, Type nz) : x(nx), y(ny), z(nz)
+	PX_CUDA_CALLABLE PX_INLINE PxVec3T(Type nx, Type ny, Type nz) : x(nx), y(ny), z(nz)
 	{
+	}
+
+	/**
+	\brief sets all elements to zero.
+	*/
+	PX_CUDA_CALLABLE PX_INLINE void setZero()
+	{
+		x = Type(0.0);
+		y = Type(0.0);
+		z = Type(0.0);
 	}
 
 	/**
