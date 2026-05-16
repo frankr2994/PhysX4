@@ -5,8 +5,22 @@
 #ifndef PX_COMPATIBILITY_34_H
 #define PX_COMPATIBILITY_34_H
 
+// Protect PhysX 5.6 headers from Unreal's 'check' macro collision
+#define PX_COMPAT_PUSHED_CHECK 0
+#ifdef check
+    #pragma push_macro("check")
+    #undef check
+    #undef PX_COMPAT_PUSHED_CHECK
+    #define PX_COMPAT_PUSHED_CHECK 1
+#endif
+
 #include "PxPhysicsAPI.h"
 #include "extensions/PxSceneQueryExt.h"
+
+#if PX_COMPAT_PUSHED_CHECK
+    #pragma pop_macro("check")
+#endif
+#undef PX_COMPAT_PUSHED_CHECK
 
 namespace physx
 {
@@ -32,6 +46,31 @@ struct PxActiveTransform
 // We map it to eENABLE_ACTIVE_ACTORS via macro so that code referencing
 // PxSceneFlag::eENABLE_ACTIVETRANSFORMS compiles correctly.
 #define eENABLE_ACTIVETRANSFORMS eENABLE_ACTIVE_ACTORS
+
+// Missing Scene Flags in 5.6
+static const PxSceneFlag::Enum eENABLE_KINEMATIC_STATIC_PAIRS = (PxSceneFlag::Enum)0;
+static const PxSceneFlag::Enum eENABLE_KINEMATIC_PAIRS = (PxSceneFlag::Enum)0;
+
+// Missing Hit Flags
+static const PxHitFlag::Enum eDISTANCE = (PxHitFlag::Enum)(1<<2);
+
+// Missing Constraint Flags
+static const PxConstraintFlag::Enum ePROJECTION = (PxConstraintFlag::Enum)(1<<1);
+
+// Missing Platform Macros for APEX
+#ifndef PX_ANDROID
+#define PX_ANDROID 0
+#endif
+#ifndef PX_PS4
+#define PX_PS4 0
+#endif
+#ifndef PX_APPLE
+#define PX_APPLE 0
+#endif
+
+// Helper to bridge PxPhysics::createAggregate(maxActors, selfCollision) 
+// to PhysX 5.6 createAggregate(maxActors, maxShapes, selfCollision)
+#define createAggregate(maxActors, selfCollision) createAggregate(maxActors, (maxActors)*4, selfCollision)
 
 // -------------------------------------------------------------------------
 // 3. Batch Queries (Deprecated in 3.4, moved to Ext in 5.6)

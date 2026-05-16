@@ -230,6 +230,18 @@ public:
 	virtual		void	setCMassLocalPose(const PxTransform& pose) = 0;
 
 	/**
+	\brief Sets the linear velocity of the body.
+	\note Used for compatibility with PhysX 3.4 API.
+	*/
+	virtual		void	setLinearVelocity(const PxVec3& v, bool autowake = true) = 0;
+
+	/**
+	\brief Sets the angular velocity of the body.
+	\note Used for compatibility with PhysX 3.4 API.
+	*/
+	virtual		void	setAngularVelocity(const PxVec3& v, bool autowake = true) = 0;
+
+	/**
 	\brief Retrieves the center of mass pose relative to the actor frame.
 
 	\return The center of mass pose relative to the actor frame.

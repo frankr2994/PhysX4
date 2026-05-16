@@ -59,6 +59,20 @@ namespace physx
     template<typename T> struct PxHitCallback;
 }
 
+// Missing Platform Macros for APEX
+#ifndef PX_ANDROID
+#define PX_ANDROID 0
+#endif
+#ifndef PX_PS4
+#define PX_PS4 0
+#endif
+#ifndef PX_APPLE
+#define PX_APPLE 0
+#endif
+#ifndef PX_SWITCH
+#define PX_SWITCH 0
+#endif
+
 #ifdef PX_RESTORE_CHECK
     #pragma pop_macro("check")
     #undef PX_RESTORE_CHECK

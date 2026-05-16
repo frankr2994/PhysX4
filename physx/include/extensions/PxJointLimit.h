@@ -169,6 +169,15 @@ public:
 	}
 
 	/**
+	\brief construct a linear hard limit (legacy PhysX 3.4 signature)
+	*/
+	PxJointLinearLimit(const PxTolerancesScale& scale, PxReal extent, PxReal contactDist = -1) : value(extent)
+	{
+		(void)scale;
+		(void)contactDist;
+	}
+
+	/**
 	\brief Returns true if the limit is valid
 
 	\return true if the current settings are valid

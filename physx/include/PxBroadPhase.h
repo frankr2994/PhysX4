@@ -108,6 +108,8 @@ namespace physx
 	{
 		PxBounds3	mBounds;	//!< Region's bounds
 		void*		mUserData;	//!< Region's user-provided data
+
+		PxBroadPhaseRegion() : mBounds(PxBounds3::empty()), mUserData(NULL) {}
 	};
 
 	/**
