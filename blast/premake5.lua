@@ -189,6 +189,14 @@ workspace (workspace_name)
     filter { "system:linux" }
         platforms { "x86_64", "aarch64" }
         defaultplatform "x86_64"
+
+    filter { "system:android" }
+        platforms { "aarch64" }
+        defaultplatform "aarch64"
+        architecture "ARM"
+        defines { "__ANDROID__" }
+        buildoptions { "-fPIC" }
+        links { "c", "m", "dl", "log" }
     filter { "system:linux", "platforms:x86_64" }
         defines { "_GLIBCXX_USE_CXX11_ABI=0" }
         architecture "x86_64"
@@ -558,6 +566,7 @@ group "sdk"
                 "NvBlastExtTkSerializerRAW.cpp",
                 "NvBlastExtOutputStream.cpp",
                 "NvBlastExtInputStream.cpp",
+                "BlastCapnpStubs.cpp",
             }
         )
         add_files("source/sdk/extensions/serialization/DTO",

@@ -33,6 +33,12 @@ workspace "nvflow"
     filter { "system:linux", "platforms:aarch64" }
         architecture "aarch64"
 
+    filter { "system:android" }
+        architecture "aarch64"
+        defines { "__ANDROID__" }
+        buildoptions { "-fPIC" }
+        links { "c", "m", "dl", "log" }
+
     filter { "configurations:debug" }
         optimize "Off"
         symbols "On"

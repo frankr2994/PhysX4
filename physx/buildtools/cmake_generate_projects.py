@@ -28,7 +28,7 @@ def filterPreset(presetPath):
         presetName = presetPath
     
     # Platform-specific filtering
-    winPresetFilter = ['win','switch','crosscompile']
+    winPresetFilter = ['win','switch','crosscompile','android']
     if sys.platform == 'win32':
         # On Windows, include presets that contain win, switch, or crosscompile 
         # (but not windows-crosscompile)
@@ -312,6 +312,25 @@ class CMakePreset:
         elif self.targetPlatform == 'mac64':
             outString = outString + ' -DTARGET_BUILD_PLATFORM=mac'
             outString = outString + ' -DPX_OUTPUT_ARCH=x86'
+            return outString
+        elif self.targetPlatform == 'android':
+            outString = outString + ' -DTARGET_BUILD_PLATFORM=android'
+            if self.compiler == 'clang':
+                outString = outString + ' -DCMAKE_TOOLCHAIN_FILE=' + \
+                    os.environ['PHYSX_ROOT_DIR'] + '/source/compiler/cmake/android/android.toolchain.cmake'
+                outString = outString + ' -DANDROID_STL=\"c++_static\"'
+                if os.environ.get('PM_AndroidNDK_PATH') is None:
+                    print('Please provide path to android NDK in variable PM_AndroidNDK_PATH.')
+                    sys.exit(-1)
+                else:
+                    outString = outString + ' -DANDROID_NDK=' + \
+                        os.environ['PM_AndroidNDK_PATH']
+                    if sys.platform == 'win32':
+                        outString = outString + ' -DCMAKE_MAKE_PROGRAM=\"' + \
+                            os.environ['PM_AndroidNDK_PATH'] + '\\prebuilt\\windows-x86_64\\bin\\make.exe\"'
+                    else:
+                        outString = outString + ' -DCMAKE_MAKE_PROGRAM=\"' + \
+                            os.environ['PM_AndroidNDK_PATH'] + '/prebuilt/linux-x86_64/bin/make\"'
             return outString
         return ''
 
