@@ -21,6 +21,13 @@ namespace physx
 // 2. Scene Flags & Enums
 // -------------------------------------------------------------------------
 
+struct PxActiveTransform
+{
+    PxRigidActor* actor;
+    void* userData;
+    PxTransform actor2World;
+};
+
 // eENABLE_ACTIVETRANSFORMS was deprecated in 3.4 and removed in 4.0+.
 // We map it to eENABLE_ACTIVE_ACTORS via macro so that code referencing
 // PxSceneFlag::eENABLE_ACTIVETRANSFORMS compiles correctly.
