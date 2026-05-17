@@ -302,6 +302,17 @@ public:
 	}
 
 	/**
+	\brief construct an angular hard limit pair (legacy PhysX 3.4 signature)
+	*/
+	PxJointAngularLimitPair(PxReal lowerLimit, PxReal upperLimit, PxReal contactDist = -1) :
+		upper(upperLimit),
+		lower(lowerLimit)
+	{
+		(void)contactDist;
+		bounceThreshold = 0.5f;
+	}
+
+	/**
 	\brief Returns true if the limit is valid.
 
 	\return true if the current settings are valid

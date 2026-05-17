@@ -145,6 +145,19 @@ public:
 	/**
 	\brief Creates an aggregate with the specified maximum size and filtering hint.
 
+	\param[in] maxActors The maximum number of actors that can be added to the aggregate.
+	\param[in] enableSelfCollision Whether to enable self-collision between actors in the aggregate.
+	\return The aggregate.
+	\note Used for compatibility with PhysX 3.4 API.
+	*/
+	PX_FORCE_INLINE PxAggregate* createAggregate(PxU32 maxActors, bool enableSelfCollision)
+	{
+		return createAggregate(maxActors, maxActors * 4, enableSelfCollision);
+	}
+
+	/**
+	\brief Creates an aggregate with the specified maximum size and filtering hint.
+
 	The previous API used "bool enableSelfCollision" which should now silently evaluates
 	to a PxAggregateType::eGENERIC aggregate with its self-collision bit.
 

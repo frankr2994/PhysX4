@@ -43,22 +43,6 @@ namespace physx
 class PxShape;
 class PxRigidActor;
 
-/**
-\brief Combines a shape pointer and the actor the shape belongs to into one memory location.
-
-Serves as a base class for PxQueryHit.
-
-\see PxQueryHit
-*/
-struct PxActorShape
-{
-	PX_INLINE PxActorShape() : actor(NULL), shape(NULL) {}
-	PX_INLINE PxActorShape(PxRigidActor* a, PxShape* s) : actor(a), shape(s) {}
-
-	PxRigidActor*	actor;
-	PxShape*		shape;
-};
-
 // Extends geom hits with Px object pointers
 struct PxRaycastHit : PxGeomRaycastHit	{};
 struct PxOverlapHit : PxGeomOverlapHit	{};

@@ -193,7 +193,19 @@ public:
 	\param[in] actor		Hit actor
 	\return the updated hit type for this hit  (see #PxQueryHitType)
 	*/
-	virtual PxQueryHitType::Enum postFilter(const PxFilterData& filterData, const PxQueryHit& hit, const PxShape* shape, const PxRigidActor* actor) = 0;
+	virtual PxQueryHitType::Enum postFilter(const PxFilterData& filterData, const PxQueryHit& hit, const PxShape* shape, const PxRigidActor* actor) 
+	{
+		(void)shape; (void)actor;
+		return postFilter(filterData, hit);
+	}
+
+	/**
+	\brief legacy PhysX 3.4 postFilter signature used by UE 4.27.
+	*/
+	virtual PxQueryHitType::Enum postFilter(const PxFilterData& /*filterData*/, const PxQueryHit& /*hit*/)
+	{
+		return PxQueryHitType::eBLOCK;
+	}
 
 	/**
 	\brief virtual destructor
