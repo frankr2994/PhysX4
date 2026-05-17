@@ -266,26 +266,9 @@ public:
 	PxReal upper, lower;
 
 	/**
-	\brief construct an angular hard limit pair. 
-	
-	The lower value must be less than the upper value. 
+	\brief construct an angular soft limit pair.
 
-	\param[in] lowerLimit	The lower angle of the limit
-	\param[in] upperLimit	The upper angle of the limit
-
-	\see PxJointLimitParameters
-	*/
-	PxJointAngularLimitPair(PxReal lowerLimit, PxReal upperLimit) :
-		upper(upperLimit),
-		lower(lowerLimit)
-	{
-		bounceThreshold = 0.5f;
-	}
-
-	/**
-	\brief construct an angular soft limit pair. 
-	
-	The lower value must be less than the upper value. 
+	The lower value must be less than the upper value.
 
 	\param[in] lowerLimit	The lower angle of the limit
 	\param[in] upperLimit	The upper angle of the limit
@@ -311,7 +294,6 @@ public:
 		(void)contactDist;
 		bounceThreshold = 0.5f;
 	}
-
 	/**
 	\brief Returns true if the limit is valid.
 
@@ -350,21 +332,6 @@ public:
 	<b>Default:</b> PI/2
 	*/
 	PxReal zAngle;
-
-	/**
-	\brief Construct a cone hard limit. 
-
-	\param[in] yLimitAngle	The limit angle from the Y-axis of the constraint frame
-	\param[in] zLimitAngle	The limit angle from the Z-axis of the constraint frame
-
-	\see PxJointLimitParameters
-	*/
-	PxJointLimitCone(PxReal yLimitAngle, PxReal zLimitAngle) :
-		yAngle(yLimitAngle),
-		zAngle(zLimitAngle)
-	{
-		bounceThreshold = 0.5f;
-	}
 
 	/**
 	\brief Construct a cone soft limit. 
