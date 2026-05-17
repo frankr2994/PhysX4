@@ -501,5 +501,3 @@ public:
 #endif
 
 #endif
-
-#endif
