@@ -85,12 +85,27 @@ struct PxHitFlag
 */
 PX_FLAGS_TYPEDEF(PxHitFlag, PxU16)
 
+class PxRigidActor;
+class PxShape;
+
+/**
+\brief Pair of actor and shape pointers, as used in scene query results.
+*/
+struct PxActorShape
+{
+	PX_INLINE PxActorShape() : actor(NULL), shape(NULL) {}
+	PX_INLINE PxActorShape(PxRigidActor* a, PxShape* s) : actor(a), shape(s) {}
+
+	PxRigidActor*	actor;
+	PxShape*		shape;
+};
+
 /**
 \brief Scene query hit information.
 */
-struct PxQueryHit
+struct PxQueryHit : public PxActorShape
 {
-	PX_INLINE			PxQueryHit() : faceIndex(0xFFFFffff) {}
+	PX_INLINE			PxQueryHit() : PxActorShape(), faceIndex(0xFFFFffff) {}
 
 	/**
 	Face index of touched triangle, for triangle meshes, convex meshes and height fields.

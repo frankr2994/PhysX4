@@ -69,32 +69,8 @@ class PxVec3T
 
 	\param[in] a Value to assign to elements.
 	*/
-	PX_CUDA_CALLABLE PX_FORCE_INLINE PxVec3T(Type a) : x(a), y(a), z(a)
+	explicit PX_CUDA_CALLABLE PX_FORCE_INLINE PxVec3T(Type a) : x(a), y(a), z(a)
 	{
-	}
-
-	/**
-	\brief returns MIN(x, y, z);
-	*/
-	PX_CUDA_CALLABLE PX_INLINE Type minElement() const
-	{
-		return PxMin(x, PxMin(y, z));
-	}
-
-	/**
-	\brief returns MAX(x, y, z);
-	*/
-	PX_CUDA_CALLABLE PX_INLINE Type maxElement() const
-	{
-		return PxMax(x, PxMax(y, z));
-	}
-
-	/**
-	\brief returns absolute values of components;
-	*/
-	PX_CUDA_CALLABLE PX_FORCE_INLINE PxVec3T abs() const
-	{
-		return PxVec3T(PxAbs(x), PxAbs(y), PxAbs(z));
 	}
 
 	/**

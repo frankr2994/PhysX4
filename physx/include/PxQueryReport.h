@@ -60,9 +60,9 @@ struct PxActorShape
 };
 
 // Extends geom hits with Px object pointers
-struct PxRaycastHit : PxGeomRaycastHit, PxActorShape	{};
-struct PxOverlapHit : PxGeomOverlapHit, PxActorShape	{};
-struct PxSweepHit : PxGeomSweepHit, PxActorShape		{};
+struct PxRaycastHit : PxGeomRaycastHit	{};
+struct PxOverlapHit : PxGeomOverlapHit	{};
+struct PxSweepHit : PxGeomSweepHit		{};
 
 /**
 \brief Describes query behavior after returning a partial query result via a callback.

@@ -174,6 +174,37 @@ public:
 	PX_FORCE_INLINE	PxGeometryType::Enum	getGeometryType() const { return getGeometry().getType(); }
 
 	/**
+	\brief helper to get box geometry.
+	*/
+	PX_FORCE_INLINE	bool	getBoxGeometry(PxBoxGeometry& g) const { if(getGeometryType() == PxGeometryType::eBOX) { g = static_cast<const PxBoxGeometry&>(getGeometry()); return true; } return false; }
+
+	/**
+	\brief helper to get sphere geometry.
+	*/
+	PX_FORCE_INLINE	bool	getSphereGeometry(PxSphereGeometry& g) const { if(getGeometryType() == PxGeometryType::eSPHERE) { g = static_cast<const PxSphereGeometry&>(getGeometry()); return true; } return false; }
+
+	/**
+	\brief helper to get capsule geometry.
+	*/
+	PX_FORCE_INLINE	bool	getCapsuleGeometry(PxCapsuleGeometry& g) const { if(getGeometryType() == PxGeometryType::eCAPSULE) { g = static_cast<const PxCapsuleGeometry&>(getGeometry()); return true; } return false; }
+
+	/**
+	\brief helper to get convex mesh geometry.
+	*/
+	PX_FORCE_INLINE	bool	getConvexMeshGeometry(PxConvexMeshGeometry& g) const { if(getGeometryType() == PxGeometryType::eCONVEXMESH) { g = static_cast<const PxConvexMeshGeometry&>(getGeometry()); return true; } return false; }
+
+	/**
+	\brief helper to get triangle mesh geometry.
+	*/
+	PX_FORCE_INLINE	bool	getTriangleMeshGeometry(PxTriangleMeshGeometry& g) const { if(getGeometryType() == PxGeometryType::eTRIANGLEMESH) { g = static_cast<const PxTriangleMeshGeometry&>(getGeometry()); return true; } return false; }
+
+	/**
+	\brief helper to get height field geometry.
+	*/
+	PX_FORCE_INLINE	bool	getHeightFieldGeometry(PxHeightFieldGeometry& g) const { if(getGeometryType() == PxGeometryType::eHEIGHTFIELD) { g = static_cast<const PxHeightFieldGeometry&>(getGeometry()); return true; } return false; }
+
+
+	/**
 	\brief Retrieves the actor which this shape is associated with.
 
 	\return The actor this shape is associated with, if it is an exclusive shape, else NULL

@@ -134,16 +134,17 @@ to type #PxQueryHitType::eBLOCK when the value of PxHitCallback::nbTouches provi
 struct PxQueryFilterData
 {
 	/** \brief default constructor */
-	explicit PX_INLINE PxQueryFilterData() : flags(PxQueryFlag::eDYNAMIC | PxQueryFlag::eSTATIC)		{}
+	explicit PX_INLINE PxQueryFilterData() : flags(PxQueryFlag::eDYNAMIC | PxQueryFlag::eSTATIC), clientId(0)		{}
 
 	/** \brief constructor to set both filter data and filter flags */
-	explicit PX_INLINE PxQueryFilterData(const PxFilterData& fd, PxQueryFlags f) : data(fd), flags(f)	{}
+	explicit PX_INLINE PxQueryFilterData(const PxFilterData& fd, PxQueryFlags f) : data(fd), flags(f), clientId(0)	{}
 
 	/** \brief constructor to set filter flags only */
-	explicit PX_INLINE PxQueryFilterData(PxQueryFlags f) : flags(f)										{}
+	explicit PX_INLINE PxQueryFilterData(PxQueryFlags f) : flags(f), clientId(0)										{}
 
 	PxFilterData	data;		//!< Filter data associated with the scene query
 	PxQueryFlags	flags;		//!< Filter flags (see #PxQueryFlags)
+	PxClientID		clientId;	//!< Client ID (see #PxClientID)
 };
 
 /**

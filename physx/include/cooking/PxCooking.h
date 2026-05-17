@@ -357,6 +357,12 @@ struct PxCookingParams
 	*/
 	PxReal maxWeightRatioInTet;
 
+	/**
+	\brief The target platform for cooking.
+	\note Used for compatibility with PhysX 3.4 API.
+	*/
+	PxU32 targetPlatform;
+
 	PxCookingParams(const PxTolerancesScale& sc):
 		areaTestEpsilon					(0.06f*sc.length*sc.length),
 		planeTolerance					(0.0007f),
@@ -370,7 +376,8 @@ struct PxCookingParams
 		meshAreaMinLimit				(0.0f),
 		meshEdgeLengthMaxLimit			(500.0f),
 		gaussMapLimit					(32),
-		maxWeightRatioInTet             (FLT_MAX)
+		maxWeightRatioInTet             (FLT_MAX),
+		targetPlatform					(0)
 	{
 	}
 };

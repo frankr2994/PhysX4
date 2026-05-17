@@ -75,6 +75,9 @@ struct PxErrorCode
 		//! \brief The SDK has determined that an operation may result in poor performance.
 		ePERF_WARNING      = 128,
 
+		//! \brief An informational message for UE4 compatibility.
+		eLOGGING_INFO      = 256,
+
 		//! \brief A bit mask for including all errors
 		eMASK_ALL          = -1
 	};
