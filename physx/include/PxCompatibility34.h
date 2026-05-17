@@ -122,13 +122,13 @@ private:
     friend PxCooking* PxCreateCooking(PxU32 version, PxFoundation& foundation, const PxCookingParams& params);
 };
 
-static inline PxCooking* PxCreateCooking(PxU32 /*version*/, PxFoundation& /*foundation*/, const PxCookingParams& params)
+inline PxCooking* PxCreateCooking(PxU32 /*version*/, PxFoundation& /*foundation*/, const PxCookingParams& params)
 {
     return new PxCooking(params);
 }
 
-static inline void PxRegisterUnifiedHeightFields(PxPhysics&) {}
-static inline void PxRegisterHeightFields(PxPhysics&) {}
+inline void PxRegisterUnifiedHeightFields(PxPhysics&) {}
+inline void PxRegisterHeightFields(PxPhysics&) {}
 
 
 // -------------------------------------------------------------------------

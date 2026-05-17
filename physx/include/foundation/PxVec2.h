@@ -69,8 +69,16 @@ class PxVec2T
 
 	\param[in] a Value to assign to elements.
 	*/
-	explicit PX_CUDA_CALLABLE PX_FORCE_INLINE PxVec2T(Type a) : x(a), y(a)
+	PX_CUDA_CALLABLE PX_FORCE_INLINE PxVec2T(Type a) : x(a), y(a)
 	{
+	}
+
+	/**
+	\brief returns absolute values of components;
+	*/
+	PX_CUDA_CALLABLE PX_FORCE_INLINE PxVec2T abs() const
+	{
+		return PxVec2T(PxAbs(x), PxAbs(y));
 	}
 
 	/**

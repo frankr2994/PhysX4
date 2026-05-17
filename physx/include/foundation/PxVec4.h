@@ -67,7 +67,7 @@ class PxVec4T
 
 	\param[in] a Value to assign to elements.
 	*/
-	explicit PX_CUDA_CALLABLE PX_INLINE PxVec4T(Type a) : x(a), y(a), z(a), w(a)
+	PX_CUDA_CALLABLE PX_INLINE PxVec4T(Type a) : x(a), y(a), z(a), w(a)
 	{
 	}
 
@@ -95,7 +95,31 @@ class PxVec4T
 	}
 
 	/**
-	\brief Initializes from 3 scalar parameters.
+	\brief returns MIN(x, y, z, w);
+	*/
+	PX_CUDA_CALLABLE PX_INLINE Type minElement() const
+	{
+		return PxMin(x, PxMin(y, PxMin(z, w)));
+	}
+
+	/**
+	\brief returns MAX(x, y, z, w);
+	*/
+	PX_CUDA_CALLABLE PX_INLINE Type maxElement() const
+	{
+		return PxMax(x, PxMax(y, PxMax(z, w)));
+	}
+
+	/**
+	\brief returns absolute values of components;
+	*/
+	PX_CUDA_CALLABLE PX_INLINE PxVec4T abs() const
+	{
+		return PxVec4T(PxAbs(x), PxAbs(y), PxAbs(z), PxAbs(w));
+	}
+
+	/**
+	\brief Initializes from 3 scalar parameters and a 4th.
 
 	\param[in] v Value to initialize the X, Y, and Z components.
 	\param[in] nw Value to initialize W component.
