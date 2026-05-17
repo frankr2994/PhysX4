@@ -69,7 +69,7 @@ class PxVec3T
 
 	\param[in] a Value to assign to elements.
 	*/
-	explicit PX_CUDA_CALLABLE PX_FORCE_INLINE PxVec3T(Type a) : x(a), y(a), z(a)
+	PX_CUDA_CALLABLE PX_FORCE_INLINE PxVec3T(Type a) : x(a), y(a), z(a)
 	{
 	}
 

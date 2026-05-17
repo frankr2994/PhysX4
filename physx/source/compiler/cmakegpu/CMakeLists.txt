@@ -88,7 +88,8 @@ IF(PX_GENERATE_GPU_REDUCED_ARCHITECTURES)
 	GENERATE_ARCH_CODE_LIST(SASS "80,86,89,90,100,120" PTX "120")
 ELSE()
 	# Volta is the minimum compute arch required because NGC supports V100
-	GENERATE_ARCH_CODE_LIST(SASS "70,80,86,89,90,100,120" PTX "120")
+	# Removed compute_70 because CUDA 13.1 on this machine doesn't support it.
+	GENERATE_ARCH_CODE_LIST(SASS "80,86,89,90,100,120" PTX "120")
 ENDIF()
 
 # Force response files off because clangd does not parse them
