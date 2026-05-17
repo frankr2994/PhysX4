@@ -24,6 +24,7 @@
 #include "foundation/PxTransform.h"
 #include "foundation/PxBounds3.h"
 #include "foundation/PxPlane.h"
+#include "geomutils/PxContactPoint.h"
 
 namespace physx
 {
