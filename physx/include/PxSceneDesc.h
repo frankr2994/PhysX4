@@ -150,6 +150,12 @@ struct PxSceneFlag
 		eDISABLE_CCD_RESWEEP	= (1<<2),
 
 		/**
+		\brief legacy PhysX 3.4 kinematic flags
+		*/
+		eENABLE_KINEMATIC_STATIC_PAIRS = (1<<3),
+		eENABLE_KINEMATIC_PAIRS = (1<<4),
+
+		/**
 		\brief Enable GJK-based distance collision detection system.
 		
 		\note This flag is not mutable, and must be set in PxSceneDesc at scene creation.

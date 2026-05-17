@@ -167,6 +167,13 @@ public:
 	virtual		const PxGeometry&	getGeometry() const = 0;
 
 	/**
+	\brief Returns the type of the geometry.
+	\return The type of the object.
+	\note Used for compatibility with PhysX 3.4 API.
+	*/
+	PX_FORCE_INLINE	PxGeometryType::Enum	getGeometryType() const { return getGeometry().getType(); }
+
+	/**
 	\brief Retrieves the actor which this shape is associated with.
 
 	\return The actor this shape is associated with, if it is an exclusive shape, else NULL
@@ -388,7 +395,7 @@ public:
 
 	\see PxMaterial getNbMaterials() PxMaterial::release()
 	*/
-	virtual		PxBaseMaterial*		getMaterialFromInternalFaceIndex(PxU32 faceIndex) const = 0;
+	virtual		PxMaterial*		getMaterialFromInternalFaceIndex(PxU32 faceIndex) const = 0;
 
 	/**
 	\brief Sets the contact offset.
