@@ -169,6 +169,18 @@ public:
 	virtual PxVec3				getRelativeAngularVelocity()	const	= 0;
 
 	/**
+	\brief sets the linear tolerance for projection.
+	\note Used for compatibility with PhysX 3.4 API.
+	*/
+	virtual		void				setProjectionLinearTolerance(PxReal tolerance) { (void)tolerance; }
+
+	/**
+	\brief sets the angular tolerance for projection.
+	\note Used for compatibility with PhysX 3.4 API.
+	*/
+	virtual		void				setProjectionAngularTolerance(PxReal tolerance) { (void)tolerance; }
+
+	/**
 	\brief set the break force for this joint. 
 	
 	if the constraint force or torque on the joint exceeds the specified values, the joint will break, 

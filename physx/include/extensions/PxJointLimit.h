@@ -373,6 +373,17 @@ public:
 	}
 
 	/**
+	\brief Construct a cone hard limit (legacy PhysX 3.4 signature)
+	*/
+	PxJointLimitCone(PxReal yLimitAngle, PxReal zLimitAngle, PxReal contactDist = -1) :
+		yAngle(yLimitAngle),
+		zAngle(zLimitAngle)
+	{
+		(void)contactDist;
+		bounceThreshold = 0.5f;
+	}
+
+	/**
 	\brief Returns true if the limit is valid.
 
 	\return true if the current settings are valid
@@ -487,6 +498,8 @@ public:
 
 #if !PX_DOXYGEN
 } // namespace physx
+#endif
+
 #endif
 
 #endif

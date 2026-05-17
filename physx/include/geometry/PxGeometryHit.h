@@ -55,8 +55,9 @@ struct PxHitFlag
 	enum Enum
 	{
 		ePOSITION					= (1<<0),	//!< "position" member of #PxQueryHit is valid
-		eNORMAL						= (1<<1),	//!< "normal" member of #PxQueryHit is valid
-		eUV							= (1<<3),	//!< "u" and "v" barycentric coordinates of #PxQueryHit are valid. Not applicable to sweep queries.
+		eNORMAL			= (1<<1),	//!< "normal" member of #PxQueryHit is valid
+		eDISTANCE		= (1<<2),	//!< "distance" member of #PxQueryHit is valid
+		eUV				= (1<<3),	//!< "u" and "v" barycentric coordinates of #PxQueryHit are valid. Not applicable to sweep queries.
 		eASSUME_NO_INITIAL_OVERLAP	= (1<<4),	//!< Performance hint flag for sweeps when it is known upfront there's no initial overlap.
 												//!< NOTE: using this flag may cause undefined results if shapes are initially overlapping.
 		eANY_HIT					= (1<<5),	//!< Report any first hit. Used for geometries that contain more than one primitive. For meshes,

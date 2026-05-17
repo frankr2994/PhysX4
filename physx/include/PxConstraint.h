@@ -54,6 +54,7 @@ struct PxConstraintFlag
 	enum Enum
 	{
 		eBROKEN						= 1<<0,		//!< whether the constraint is broken
+		ePROJECTION					= 1<<1,		//!< legacy PhysX 3.4 projection flag
 		eCOLLISION_ENABLED			= 1<<3,		//!< whether contacts should be generated between the objects this constraint constrains
 		eVISUALIZATION				= 1<<4,		//!< whether this constraint should be visualized, if constraint visualization is turned on
 		eDRIVE_LIMITS_ARE_FORCES	= 1<<5,		//!< \deprecated Will be removed in a future version and the limits will always be forces. limits for drive strength are forces rather than impulses
