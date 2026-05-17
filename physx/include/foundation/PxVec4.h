@@ -72,7 +72,31 @@ class PxVec4T
 	}
 
 	/**
-	\brief Initializes from 4 scalar parameters.
+	\brief returns MIN(x, y, z, w);
+	*/
+	PX_CUDA_CALLABLE PX_INLINE Type minElement() const
+	{
+		return PxMin(x, PxMin(y, PxMin(z, w)));
+	}
+
+	/**
+	\brief returns MAX(x, y, z, w);
+	*/
+	PX_CUDA_CALLABLE PX_INLINE Type maxElement() const
+	{
+		return PxMax(x, PxMax(y, PxMax(z, w)));
+	}
+
+	/**
+	\brief returns absolute values of components;
+	*/
+	PX_CUDA_CALLABLE PX_INLINE PxVec4T abs() const
+	{
+		return PxVec4T(PxAbs(x), PxAbs(y), PxAbs(z), PxAbs(w));
+	}
+
+	/**
+	\brief Initializes from 3 scalar parameters and a 4th.
 	*/
 	PX_CUDA_CALLABLE PX_INLINE PxVec4T(Type nx, Type ny, Type nz, Type nw) : x(nx), y(ny), z(nz), w(nw)
 	{

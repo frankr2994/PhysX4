@@ -47,16 +47,6 @@ struct PxActiveTransform
 // PxSceneFlag::eENABLE_ACTIVETRANSFORMS compiles correctly.
 #define eENABLE_ACTIVETRANSFORMS eENABLE_ACTIVE_ACTORS
 
-// Missing Scene Flags in 5.6
-static const PxSceneFlag::Enum eENABLE_KINEMATIC_STATIC_PAIRS = (PxSceneFlag::Enum)0;
-static const PxSceneFlag::Enum eENABLE_KINEMATIC_PAIRS = (PxSceneFlag::Enum)0;
-
-// Missing Hit Flags
-static const PxHitFlag::Enum eDISTANCE = (PxHitFlag::Enum)(1<<2);
-
-// Missing Constraint Flags
-static const PxConstraintFlag::Enum ePROJECTION = (PxConstraintFlag::Enum)(1<<1);
-
 // Missing Platform Macros for APEX
 #ifndef PX_ANDROID
 #define PX_ANDROID 0

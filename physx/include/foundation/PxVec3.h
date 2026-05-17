@@ -74,6 +74,30 @@ class PxVec3T
 	}
 
 	/**
+	\brief returns MIN(x, y, z);
+	*/
+	PX_CUDA_CALLABLE PX_INLINE Type minElement() const
+	{
+		return PxMin(x, PxMin(y, z));
+	}
+
+	/**
+	\brief returns MAX(x, y, z);
+	*/
+	PX_CUDA_CALLABLE PX_INLINE Type maxElement() const
+	{
+		return PxMax(x, PxMax(y, z));
+	}
+
+	/**
+	\brief returns absolute values of components;
+	*/
+	PX_CUDA_CALLABLE PX_FORCE_INLINE PxVec3T abs() const
+	{
+		return PxVec3T(PxAbs(x), PxAbs(y), PxAbs(z));
+	}
+
+	/**
 	\brief Initializes from 3 scalar parameters.
 
 	\param[in] nx Value to initialize X component.
