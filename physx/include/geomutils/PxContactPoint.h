@@ -73,6 +73,12 @@ namespace physx
 		PxU8 materialFlags;
 
 		/**
+		\brief The surface index of shape 0 at the contact point. This is used to identify the surface material.
+		\note Used for compatibility with PhysX 3.4 API.
+		*/
+		PxU32   internalFaceIndex0;
+
+		/**
 		\brief The surface index of shape 1 at the contact point. This is used to identify the surface material.
 
 		\note This field is only supported by triangle meshes and heightfields, else it will be set to PXC_CONTACT_NO_FACE_INDEX.

@@ -24,7 +24,7 @@
 //
 // Copyright (c) 2008-2025 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
-// Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
+// Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 #ifndef PX_SOLVER_DEFS_H
 #define PX_SOLVER_DEFS_H
@@ -99,9 +99,9 @@ PX_COMPILE_TIME_ASSERT(PX_OFFSET_OF(PxSolverBodyData, sqrtInvInertia)+sizeof(PxS
 */
 struct PxConstraintBatchHeader
 {
-	PxU32	startIndex;			//!< Start index for this batch
-	PxU16	stride;				//!< Number of constraints in this batch (range: 1-4)
-	PxU16	constraintType;		//!< The type of constraint this batch references
+	union { PxU32 startIndex; PxU32 mStartIndex; };	//!< Start index for this batch
+	union { PxU16 stride; PxU16 mStride; };			//!< Number of constraints in this batch (range: 1-4)
+	union { PxU16 constraintType; PxU16 mConstraintType; }; //!< The type of constraint this batch references
 };
 
 /**
@@ -111,6 +111,7 @@ PX_ALIGN_PREFIX(16)
 struct PxSolverConstraintDesc
 {
 	static const PxU16 RIGID_BODY = 0xffff;
+	static const PxU16 NO_LINK = RIGID_BODY;
 
 	enum ConstraintType
 	{
@@ -164,7 +165,7 @@ struct PxSolverConstraintPrepDescBase
 		eARTICULATION = 1 << 3
 	};
 
-	PxConstraintInvMassScale invMassScales;	//!< In: The local mass scaling for this pair.
+	union { PxConstraintInvMassScale invMassScales; PxConstraintInvMassScale mInvMassScales; };	//!< In: The local mass scaling for this pair.
 
 	PxSolverConstraintDesc* desc;			//!< Output: The PxSolverConstraintDesc filled in by contact prep
 
@@ -706,4 +707,3 @@ struct PxTGSSolverContactDesc : public PxTGSSolverConstraintPrepDescBase
 #endif
 
 #endif
-

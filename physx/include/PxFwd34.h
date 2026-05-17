@@ -6,35 +6,27 @@
 
 #include "foundation/PxSimpleTypes.h"
 
+// Protect PhysX 5.6 headers from Unreal's 'check' macro collision
 #ifdef check
     #pragma push_macro("check")
     #undef check
     #define PX_RESTORE_CHECK
 #endif
 
+// Include the actual definitions for math types because legacy code (APEX) 
+// uses them as values in structs, which doesn't work with just forward declarations.
+#include "foundation/PxVec2.h"
+#include "foundation/PxVec3.h"
+#include "foundation/PxVec4.h"
+#include "foundation/PxQuat.h"
+#include "foundation/PxMat33.h"
+#include "foundation/PxMat44.h"
+#include "foundation/PxTransform.h"
+#include "foundation/PxBounds3.h"
+#include "foundation/PxPlane.h"
+
 namespace physx
 {
-    template<class Type> class PxVec2T;
-    typedef PxVec2T<float> PxVec2;
-
-    template<class Type> class PxVec3T;
-    typedef PxVec3T<float> PxVec3;
-
-    template<class Type> class PxVec4T;
-    typedef PxVec4T<float> PxVec4;
-
-    template<class Type> class PxQuatT;
-    typedef PxQuatT<float> PxQuat;
-
-    template<class Type> class PxMat33T;
-    typedef PxMat33T<float> PxMat33;
-
-    template<class Type> class PxMat44T;
-    typedef PxMat44T<float> PxMat44;
-
-    template<class Type> class PxTransformT;
-    typedef PxTransformT<float> PxTransform;
-    
     // Classes that are still classes
     class PxScene;
     class PxPhysics;
@@ -57,6 +49,12 @@ namespace physx
     
     template<typename T> struct PxHitBuffer;
     template<typename T> struct PxHitCallback;
+}
+
+// Legacy Gu namespace for contact generation
+namespace Gu
+{
+    typedef physx::PxContactPoint ContactPoint;
 }
 
 // Missing Platform Macros for APEX

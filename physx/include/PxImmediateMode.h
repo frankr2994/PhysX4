@@ -171,8 +171,15 @@ namespace immediate
 	\param	[out] Z				Deprecated, no longer used. Any value (including NULL) can be passed.
 	\return a boolean indicating if this method was successful or not.
 	*/
-	PX_C_EXPORT PX_PHYSX_CORE_API bool PxCreateJointConstraints(PxConstraintBatchHeader* batchHeaders, PxU32 nbHeaders, PxSolverConstraintPrepDesc* jointDescs, 
-		PxConstraintAllocator& allocator, PxSpatialVector* Z, PxReal dt, PxReal invDt);
+	PX_C_EXPORT PX_PHYSX_CORE_API bool PxCreateJointConstraints(PxConstraintBatchHeader* batchHeaders, PxU32 nbHeaders, PxSolverConstraintPrepDesc* jointDescs, PxConstraintAllocator& allocator, PxSpatialVector* Z, PxReal dt, PxReal invDt);
+
+	/**
+	\brief legacy PhysX 3.4 signature used by UE 4.27.
+	*/
+	static inline bool PxCreateJointConstraints(PxConstraintBatchHeader* batchHeaders, PxU32 nbHeaders, PxSolverConstraintPrepDesc* jointDescs, PxConstraintAllocator& allocator, PxReal dt, PxReal invDt)
+	{
+		return PxCreateJointConstraints(batchHeaders, nbHeaders, jointDescs, allocator, NULL, dt, invDt);
+	}
 
 	/**
 	\brief Creates a set of joint constraint blocks. This function runs joint shaders defined inside PxConstraint** param, fills in joint row information in jointDescs and then calls PxCreateJointConstraints.
