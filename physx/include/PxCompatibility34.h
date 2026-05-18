@@ -130,7 +130,6 @@ inline PxCooking* PxCreateCooking(PxU32 /*version*/, PxFoundation& /*foundation*
 inline void PxRegisterUnifiedHeightFields(PxPhysics&) {}
 inline void PxRegisterHeightFields(PxPhysics&) {}
 
-
 // -------------------------------------------------------------------------
 // 4. Batch Queries
 // -------------------------------------------------------------------------
@@ -144,6 +143,50 @@ typedef PxBatchQueryExt PxBatchQuery;
 typedef PxArticulationReducedCoordinate PxArticulation;
 typedef PxArticulationJointReducedCoordinate PxArticulationJoint;
 
+// -------------------------------------------------------------------------
+// 6. Vehicle Legacy Types & Macros
+// -------------------------------------------------------------------------
+
+#ifndef PX_DEBUG_VEHICLE_ON
+#define PX_DEBUG_VEHICLE_ON 0
+#endif
+
+struct PxVehicleWheelQueryResult
+{
+    void* ptr; // Stub for TArray usage
+};
+
+struct PxRaycastQueryResult
+{
+    void* ptr; // Stub for TArray usage
+};
+
 } // namespace physx
+
+// -------------------------------------------------------------------------
+// 7. APEX Legacy Namespaces and Methods
+// -------------------------------------------------------------------------
+
+namespace nvidia
+{
+namespace apex
+{
+    struct ApexSDKDesc
+    {
+        void* physXSDK;
+        void* cooking;
+        ApexSDKDesc() : physXSDK(NULL), cooking(NULL) {}
+    };
+
+    class Scene
+    {
+    public:
+        void lockRead(const char*, PxU32) {}
+        void unlockRead() {}
+        void lockWrite(const char*, PxU32) {}
+        void unlockWrite() {}
+    };
+}
+}
 
 #endif // PX_COMPATIBILITY_34_H
